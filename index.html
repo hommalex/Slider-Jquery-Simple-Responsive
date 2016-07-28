@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<style>
+.container { width: 60%; margin: 0 auto; }
+.slide-window { height: auto; overflow: hidden;  position: relative; }
+.slide-window img { width:100%; }
+.slide-holder { background-color: blue; margin-left:0%; transition: margin-left 1s; }
+.slide { height: auto; float: left; }
+.slide-nav { position: absolute; width: 100%; height: 20px; left: 0; bottom: 10px; text-align: center; z-index: 100; }
+.slide-nav-bt { width: 9px; height: 9px; background-color: #fff; border: solid 1px transparent; border-radius: 50%;display: inline-block;  cursor: pointer;}
+.slide-nav-bt.active { background-color: #000; border: solid 1px #fff; }
+	</style>
+</head>
+<body style="padding: 0;">
+	<div class="container">
+
+<div class="slide-window">
+	<div class="slide-holder" id="slide-holder"> 
+		<div class="slide">
+			<img class="img-q" src="http://www.theplunge.com/image.php?width=1010&height=400&image=http://www.theplunge.com/images/new_york_city.jpg" alt="">
+		</div>
+		<div class="slide">
+			<img class="img-reponsive" src="http://www1.mastercard.com/content/dam/mastercardoffers/Australia/moments-australia/offer-assets/entertainment/New_York_Water_Taxi/DETAIL.jpg" alt="">
+		</div>
+		<div class="slide">
+			<img class="img-reponsive" src="http://greenywallpapers.com/resizes/1/93181-new-york-city-wallpapers-1920x1200.jpg" alt="">
+		</div>
+	</div>
+	<div class="slide-nav" id="slide-nav">
+		
+	</div>
+</div>
+
+	</div>
+
+	<script>
+$( document ).ready(function() {	
+
+	var slidePosition=0;
+	var numOfSlide = $("#slide-holder > div").size();
+	
+	$("#slide-holder").css("width",(numOfSlide*100)+"%");
+	$(".slide").css("width",(100/numOfSlide)+"%");
+	
+	for (var a = 0; a < numOfSlide; a++) {
+		$('#slide-nav').append(' <a href="javascript: void(0)" class="slide-nav-bt'+(a==0?' active':'')+'">  </a> ');
+	}
+	
+	$('.slide-nav-bt').click(function() {
+		moveSlide($(this));
+		clearInterval(autoPlaySlideInter)
+	});
+	
+	function moveSlide(thisa) { console.log("eee");
+		var thisindex = $('#slide-nav a').index(thisa);
+		$('#slide-holder').css("margin-left", '-'+thisindex +'00%');
+		$('#slide-nav a').removeClass('active');
+		thisa.addClass('active');
+	}
+	
+	function autoPlaySlide() {
+		slidePosition++;
+		if (slidePosition == numOfSlide) { slidePosition = 0; }
+		moveSlide($("#slide-nav").children(".slide-nav-bt:eq("+slidePosition+")"));
+	}
+	
+	var autoPlaySlideInter = setInterval(autoPlaySlide,3000);
+});
+  
+
+	</script>
+
+</body>
+</html>
